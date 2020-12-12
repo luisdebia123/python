@@ -1,5 +1,5 @@
 import random
-AHORCADO = ['''
+AHORCADO = [♥''
       +---+
       |   |
           |
