@@ -61,15 +61,8 @@ IMAGES = ['''
         =========''', '''
 ''']
 
-WORDS = [
-    'lavadora',
-    'secadora',
-    'sofa',
-    'gobierno',
-    'diputado',
-    'democracia',
-    'computadora',
-    'teclado'
+WORDS = ['lavadora', 'secadora', 'sofa', 'gobierno', 'diputado',
+    'democracia', 'computadora', 'teclado'
 ]
 
 
