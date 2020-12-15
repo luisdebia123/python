@@ -1,5 +1,6 @@
 import random
-AHORCADO = ['''
+
+FIGURAS = ['''
       +---+
       |   |
           |
@@ -49,82 +50,82 @@ AHORCADO = ['''
      / \  |
           |
     =========''']
-palabras = 'valoracion aprenderpython comida juego python web imposible variable curso volador cabeza reproductor mirada escritor billete lapicero celular valor revista gratuito disco voleibol anillo estrella'.split()
- 
-def buscarPalabraAleat(listaPalabras):
-    # Esta funcion retorna una palabra aleatoria.
-    palabraAleatoria = random.randint(0, len(listaPalabras) - 1)
-    return listaPalabras[palabraAleatoria]
- 
-def displayBoard(AHORCADO, letraIncorrecta, letraCorrecta, palabraSecreta):
-    print(AHORCADO[len(letraIncorrecta)])
-    print ("")
-    fin = " "
-    print ('Letras incorrectas:', fin)
-    for letra in letraIncorrecta:
-        print (letra, fin)
-    print ("")
-    espacio = '_' * len(palabraSecreta)
-    for i in range(len(palabraSecreta)): # Remplaza los espacios en blanco por la letra bien escrita
-        if palabraSecreta[i] in letraCorrecta:
-            espacio = espacio[:i] + palabraSecreta[i] + espacio[i+1:]
-    for letra in espacio: # Mostrará la palabra secreta con espacios entre letras
-        print (letra, fin)
-    print ("")
- 
-def elijeLetra(algunaLetra):
-    # Devuelve la letra que el jugador ingreso. Esta función hace que el jugador ingrese una letra y no cualquier otra cosa
-    while True:
-        print ('Adivina una letra:')
-        letra = input()
-        letra = letra.lower()
-        if len(letra) != 1:
-            print ('Introduce una sola letra.') 
-        elif letra in algunaLetra:
-            print ('Ya has elegido esa letra ¿Qué tal si pruebas con otra?')
-        elif letra not in 'abcdefghijklmnopqrstuvwxyz':
-            print ('Elije una letra.')
-        else:
-            return letra
- 
-def empezar():
-    # Esta funcion devuelve True si el jugador quiere volver a jugar, de lo contrario devuelve False
-    print ('Quieres jugar de nuevo? (Si o No)')
-    return input().lower().startswith('s')
- 
-print ('A H O R C A D O')
-letraIncorrecta = ""
-letraCorrecta = ""
-palabraSecreta = buscarPalabraAleat(palabras)
-finJuego = False
-while True:
-    displayBoard(AHORCADO, letraIncorrecta, letraCorrecta, palabraSecreta)
-    # El usuairo elije una letra.
-    letra = elijeLetra(letraIncorrecta + letraCorrecta)
-    if letra in palabraSecreta:
-        letraCorrecta = letraCorrecta + letra
-        # Se fija si el jugador ganó
-        letrasEncontradas = True
-        for i in range(len(palabraSecreta)):
-            if palabraSecreta[i] not in letraCorrecta:
-                letrasEncontradas = False
-                break
-        if letrasEncontradas:
-            print ('¡Muy bien! La palabra secreta es "' + palabraSecreta + '"! ¡Has ganado!')
-            finJuego = True
+
+Lista_palabras = {
+    1: ["E", "L", "E", "F", "A", "N", "T", "E"],
+    2: ["C", "T", "H", "U", "L", "H", "U"],
+    3: ["A", "U", "S", "T", "R", "A", "L", "O", "P", "I", "T", "H", "E", "C", "U", "S"],
+    4: ["M", "I", "C", "R", "O", "S", "C", "O", "P", "I", "O"],
+    5: ["V", "E", "N", "T", "I", "L", "A", "D", "O", "R"],
+    6: ["M", "O", "N", "S", "T", "E", "R"]
+}
+respuesta = []
+
+
+def obtener_palabra_aleatoria(listado):
+    palabra = Lista_palabras[listado]
+    return palabra
+
+
+def actualiza_tablero(letras_incognitas, letras_adivinadas, palabra_secreta):
+    if (letras_adivinadas == len(palabra_secreta)):
+        print(
+            f"\n felicitaciones!!! ganaste! la palabra era {palabra_secreta}")
+        return 1
     else:
-        letraIncorrecta = letraIncorrecta + letra
-        # Comprueba la cantidad de letras que ha ingresado el jugador y si perdió
-        if len(letraIncorrecta) == len(AHORCADO) - 1:
-            displayBoard(AHORCADO, letraIncorrecta, letraCorrecta, palabraSecreta)
-            print ('¡Se ha quedado sin letras!\nDespues de ' + str(len(letraIncorrecta)) + ' letras erroneas y ' + str(len(letraCorrecta)) + ' letras correctas, la palabra era "' + palabraSecreta + '"')
-            finJuego = True
-    # Pregunta al jugador si quiere jugar de nuevo
-    if finJuego:
-        if empezar():
-            letraIncorrecta = ""
-            letraCorrecta = ""
-            finJuego = False
-            palabraSecreta = buscarPalabraAleat(palabras)
+        return 0
+
+
+def preguntar_letra():
+    # letra = input(Ingrese una letra: ")
+    letra = input("\n Ingrese una letra: ")
+    letra = letra.upper()
+    print("\n\n")
+    return letra
+
+
+def calcula_puntaje(puntaje):
+    puntaje = puntaje-20
+    while puntaje != 0:
+        print(f"incorrecto!! te quedan {puntaje} puntos")
+        print(
+            f"\n llevas {letras_adivinadas} y faltan {letras_incognitas} por descubrir")
+        return puntaje
+    else:
+        print(
+            f"\n Has perdido!!!")
+
+
+ganador = 0
+j = 0
+puntaje = 100
+print("""*****************************************
+*   Bienvenido al juego del ahorcado    *
+*****************************************""")
+
+print("A JUGAR!!!")
+#key = random.randint(1,6)
+key = 1
+key = random.randint(1, 6)
+palabra = obtener_palabra_aleatoria(key)
+letras_adivinadas = 0
+letras_incognitas = len(palabra)
+for i in range(0, len(palabra)):
+    respuesta.append("_")
+while(ganador == 0):
+    contador = 0
+    print(FIGURAS[j], end=" ")
+    print(" ".join(respuesta), end="")
+    letra = preguntar_letra()
+    for i in range(0, len(palabra)):
+        if(letra == palabra[i]) and (letra != respuesta[i]):
+            respuesta[i] = letra
+            letras_adivinadas = letras_adivinadas+1
+            letras_incognitas = letras_incognitas-1
         else:
-            break
+            contador = contador+1
+    if(contador == len(palabra)):
+        puntaje = calcula_puntaje(puntaje)
+        i = len(palabra)
+        j = j+1
+    ganador = actualiza_tablero(letras_incognitas, letras_adivinadas, palabra)
