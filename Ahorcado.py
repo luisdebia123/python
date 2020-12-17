@@ -95,7 +95,6 @@ def calcula_puntaje(puntaje):
         print(
             f"\n Has perdido!!!")
 
-
 ganador = 0
 j = 0
 puntaje = 100
@@ -110,6 +109,7 @@ key = random.randint(1, 6)
 palabra = obtener_palabra_aleatoria(key)
 letras_adivinadas = 0
 letras_incognitas = len(palabra)
+
 for i in range(0, len(palabra)):
     respuesta.append("_")
 while(ganador == 0):
